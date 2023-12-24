@@ -1,11 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import { InputContainer } from './InputContainer'
+import { Container, InputContainer } from 'components/styled/style'
 
-const Container = styled.div`
-    margin: 20px;
-    /* width: 300px; */
-`
+
 const Input = ({ data, value, onChange }) => {
     
     return (

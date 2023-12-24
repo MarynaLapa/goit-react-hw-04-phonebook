@@ -1,43 +1,40 @@
-import { Component } from 'react'
-import Input from './Input'
-import Button from './Button'
+import { useState } from 'react'
 import data from './data.json'
-import styled from 'styled-components'
+import { FormStyled } from 'components/styled/style'
+import Button from 'components/Button'
+import Input from 'components/Input'
 
-const FormStyled = styled.form`
-  width: 320px;
-  text-align: center;
-`
-export default class ContactForm extends Component {
-    state = {
-      name: '',
-      number: '',
+const ContactForm = ({onSubmit}) => {
+  const [name, setName] = useState('')
+  const [number, setNumber] = useState('')
+
+  const handlerChange = ({ target: { value, name } }) => {
+    switch (name) {
+      case 'name': setName(value)
+        break;
+      
+      case 'number': setNumber(value)
+        break;
+      
+      default:
+        return;
     }
-    
-  handlerChange = ({ target: { value, name } }) => {
-    
-    this.setState({
-      [name]: value,
-    })
-    console.log(this.state)
   }
 
-  handlerSubmit = (e) => {
+  const handlerSubmit = (e) => {
     e.preventDefault()
-    this.props.addUserData(this.state)
-    this.setState({
-      name: '',
-      number: '',
-    })
+    onSubmit({name, number})
+
+    setName('')
+    setNumber('')
   }
-  
-  render() {
-      return (
-        <FormStyled onSubmit={this.handlerSubmit}> 
+
+  return (
+        <FormStyled onSubmit={handlerSubmit}> 
           <Input
             data={data}
-            value={[this.state.name, this.state.number]}
-            onChange={this.handlerChange}
+            value={[name, number]}
+            onChange={handlerChange}
           />
           <Button
             text={'Add contact'}
@@ -45,6 +42,5 @@ export default class ContactForm extends Component {
           />
         </FormStyled>
     )
-  }
 }
-
+export default ContactForm
